@@ -13,7 +13,7 @@ import { linkedinLoginUrl } from "@/lib/auth-urls";
 interface Step1Props {
   state: FlowState;
   onConnect?: () => void;
-  onFollowProof: (dataUrl: string) => void;
+  onFollowProof: (file: File) => Promise<void> | void;
   onFollowReset: () => void;
 }
 
@@ -47,7 +47,7 @@ export function Step1Linkedin({ state, onConnect, onFollowProof, onFollowReset }
           <ScreenshotUpload
             initial={state.data.linkedinProof}
             points={POINTS.followLinkedin}
-            onUpload={onFollowProof}
+            onFile={onFollowProof}
             onRemove={onFollowReset}
           />
         </div>

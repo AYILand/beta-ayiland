@@ -1,5 +1,7 @@
 "use client";
 
+import { rememberAdminPassword } from "./admin-api";
+
 const AUTH_KEY = "ayiland-admin-auth";
 const FALLBACK_PASSWORD = "ayitech2026";
 
@@ -12,8 +14,12 @@ export function loadAdminAuth(): boolean {
   return window.localStorage.getItem(AUTH_KEY) === "1";
 }
 
-export function setAdminAuth(value: boolean) {
+export function setAdminAuth(value: boolean, password?: string) {
   if (typeof window === "undefined") return;
-  if (value) window.localStorage.setItem(AUTH_KEY, "1");
-  else window.localStorage.removeItem(AUTH_KEY);
+  if (value) {
+    window.localStorage.setItem(AUTH_KEY, "1");
+    if (password) rememberAdminPassword(password);
+  } else {
+    window.localStorage.removeItem(AUTH_KEY);
+  }
 }

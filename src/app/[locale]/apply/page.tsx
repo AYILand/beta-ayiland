@@ -32,7 +32,7 @@ import {
   type Achievement,
 } from "@/lib/flow";
 import { clearEmail, loadEmail, loadSession, persistEmail, useSession } from "@/lib/session";
-import { markSubmitted } from "@/lib/repo";
+import { uploadProof } from "@/lib/storage";
 
 export default function ApplyPage() {
   const t = useTranslations();
@@ -151,9 +151,28 @@ export default function ApplyPage() {
   }
 
   async function handleSubmit() {
+    if (!email) return;
     setSubmitting(true);
     performAction("submit");
-    if (email) markSubmitted(email);
+    try {
+      await fetch("/api/candidate", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email,
+          xp: state.xp + POINTS.submit,
+          linkedinHandle: state.data.linkedinHandle,
+          twitterHandle: state.data.twitterHandle,
+          whatsapp: state.data.whatsapp,
+          linkedinProofUrl: state.data.linkedinProof,
+          twitterProofUrl: state.data.twitterProof,
+          flowState: { ...state, xp: state.xp + POINTS.submit },
+          submit: true,
+        }),
+      });
+    } catch (err) {
+      console.error("Submit failed", err);
+    }
     setTimeout(() => router.push("/apply/success"), 900);
   }
 
@@ -244,12 +263,14 @@ export default function ApplyPage() {
                 {state.step === 1 && (
                   <Step1Linkedin
                     state={state}
-                    onFollowProof={(dataUrl) =>
+                    onFollowProof={async (file) => {
+                      if (!email) return;
+                      const publicUrl = await uploadProof(email, "linkedin", file);
                       performAction("followLinkedin", (p) => ({
                         ...p,
-                        data: { ...p.data, linkedinProof: dataUrl },
-                      }))
-                    }
+                        data: { ...p.data, linkedinProof: publicUrl },
+                      }));
+                    }}
                     onFollowReset={() =>
                       update((p) => {
                         const next = {
@@ -270,12 +291,14 @@ export default function ApplyPage() {
                 {state.step === 2 && (
                   <Step2Twitter
                     state={state}
-                    onFollowProof={(dataUrl) =>
+                    onFollowProof={async (file) => {
+                      if (!email) return;
+                      const publicUrl = await uploadProof(email, "twitter", file);
                       performAction("followTwitter", (p) => ({
                         ...p,
-                        data: { ...p.data, twitterProof: dataUrl },
-                      }))
-                    }
+                        data: { ...p.data, twitterProof: publicUrl },
+                      }));
+                    }}
                     onFollowReset={() =>
                       update((p) => {
                         const next = {

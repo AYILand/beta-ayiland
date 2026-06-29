@@ -13,13 +13,8 @@ import { LangSwitcher } from "@/components/ui/LangSwitcher";
 import { Link } from "@/i18n/navigation";
 import { BETA_CONFIG } from "@/lib/config";
 import { loadAdminAuth, setAdminAuth } from "@/lib/admin";
-import {
-  listCandidates,
-  seedDemoCandidates,
-  setStatus,
-  type Candidate,
-  type CandidateStatus,
-} from "@/lib/repo";
+import { fetchCandidates, patchCandidateStatus } from "@/lib/admin-api";
+import type { Candidate, CandidateStatus } from "@/lib/repo";
 
 type Tab = "candidates" | "quests";
 type Filter = "all" | CandidateStatus;
@@ -39,8 +34,17 @@ export default function AdminPage() {
     setHydrated(true);
   }, []);
 
-  function refresh() {
-    setCandidates(listCandidates());
+  const [loadError, setLoadError] = useState<string | null>(null);
+
+  async function refresh() {
+    try {
+      setLoadError(null);
+      const list = await fetchCandidates();
+      setCandidates(list);
+    } catch (err) {
+      console.error(err);
+      setLoadError((err as Error).message);
+    }
   }
 
   useEffect(() => {
@@ -158,18 +162,8 @@ export default function AdminPage() {
                     </button>
                   ))}
                 </div>
-                {stats.total === 0 && (
-                  <button
-                    type="button"
-                    onClick={() => {
-                      seedDemoCandidates();
-                      refresh();
-                    }}
-                    className="inline-flex items-center gap-1.5 rounded-lg border border-dashed border-brand-blue/40 bg-brand-blue/5 px-3 py-2 text-xs font-medium text-brand-blue transition hover:bg-brand-blue/10"
-                  >
-                    <Sparkles size={13} />
-                    {t("actions.seedDemo")}
-                  </button>
+                {loadError && (
+                  <span className="text-[11px] text-red-600">{loadError}</span>
                 )}
               </div>
 
@@ -183,16 +177,16 @@ export default function AdminPage() {
                     <CandidateRow
                       key={c.email}
                       candidate={c}
-                      onApprove={() => {
-                        setStatus(c.email, "approved");
+                      onApprove={async () => {
+                        await patchCandidateStatus(c.email, "approved");
                         refresh();
                       }}
-                      onReject={() => {
-                        setStatus(c.email, "rejected");
+                      onReject={async () => {
+                        await patchCandidateStatus(c.email, "rejected");
                         refresh();
                       }}
-                      onReset={() => {
-                        setStatus(c.email, "pending");
+                      onReset={async () => {
+                        await patchCandidateStatus(c.email, "pending");
                         refresh();
                       }}
                       onView={() => setDrawer(c)}

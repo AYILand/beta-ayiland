@@ -8,21 +8,22 @@ import { Upload, ImageIcon, X, Check } from "lucide-react";
 interface ScreenshotUploadProps {
   initial?: string;
   points: number;
-  onUpload: (dataUrl: string) => void;
+  onFile: (file: File) => Promise<void> | void;
   onRemove: () => void;
 }
 
 const MAX_BYTES = 2 * 1024 * 1024;
 const TYPES = ["image/png", "image/jpeg", "image/jpg", "image/webp"];
 
-export function ScreenshotUpload({ initial, points, onUpload, onRemove }: ScreenshotUploadProps) {
+export function ScreenshotUpload({ initial, points, onFile, onRemove }: ScreenshotUploadProps) {
   const t = useTranslations("upload");
   const inputRef = useRef<HTMLInputElement | null>(null);
   const [preview, setPreview] = useState<string | null>(initial ?? null);
   const [error, setError] = useState<string | null>(null);
   const [dragging, setDragging] = useState(false);
+  const [uploading, setUploading] = useState(false);
 
-  function handleFile(file: File) {
+  async function handleFile(file: File) {
     setError(null);
     if (!TYPES.includes(file.type)) {
       setError(t("invalidType"));
@@ -32,13 +33,18 @@ export function ScreenshotUpload({ initial, points, onUpload, onRemove }: Screen
       setError(t("tooLarge"));
       return;
     }
-    const reader = new FileReader();
-    reader.onload = () => {
-      const url = reader.result as string;
-      setPreview(url);
-      onUpload(url);
-    };
-    reader.readAsDataURL(file);
+    const localPreview = URL.createObjectURL(file);
+    setPreview(localPreview);
+    setUploading(true);
+    try {
+      await onFile(file);
+    } catch (err) {
+      console.error(err);
+      setError((err as Error)?.message ?? "Upload failed");
+      setPreview(null);
+    } finally {
+      setUploading(false);
+    }
   }
 
   function clear() {
@@ -60,7 +66,7 @@ export function ScreenshotUpload({ initial, points, onUpload, onRemove }: Screen
         <div className="min-w-0 flex-1">
           <p className="flex items-center gap-1 text-[10px] font-medium uppercase tracking-widest text-brand-green">
             <Check size={12} />
-            {t("uploaded")}
+            {uploading ? "..." : t("uploaded")}
           </p>
           <p className="truncate text-xs text-text-secondary">+{points} XP</p>
         </div>

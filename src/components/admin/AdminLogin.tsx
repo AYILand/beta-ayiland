@@ -23,6 +23,9 @@ export function AdminLogin({ onAuth }: AdminLoginProps) {
   function submit() {
     if (value === adminPassword()) {
       setError(false);
+      if (typeof window !== "undefined") {
+        window.localStorage.setItem("ayiland-admin-password", value);
+      }
       onAuth();
     } else {
       setError(true);

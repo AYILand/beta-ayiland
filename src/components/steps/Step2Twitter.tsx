@@ -13,7 +13,7 @@ import { twitterLoginUrl } from "@/lib/auth-urls";
 interface Step2Props {
   state: FlowState;
   onConnect?: () => void;
-  onFollowProof: (dataUrl: string) => void;
+  onFollowProof: (file: File) => Promise<void> | void;
   onFollowReset: () => void;
 }
 
@@ -47,7 +47,7 @@ export function Step2Twitter({ state, onConnect, onFollowProof, onFollowReset }:
           <ScreenshotUpload
             initial={state.data.twitterProof}
             points={POINTS.followTwitter}
-            onUpload={onFollowProof}
+            onFile={onFollowProof}
             onRemove={onFollowReset}
           />
         </div>
