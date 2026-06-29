@@ -1,0 +1,202 @@
+{
+  "meta": {
+    "title": "AYILand · Programme Beta",
+    "description": "Rejoignez les 500 premiers utilisateurs d'Ayiland. Sélection en 7 jours."
+  },
+  "common": {
+    "betaAccess": "ACCÈS BETA",
+    "earlyAccess": "PROGRAMME EARLY ACCESS",
+    "continue": "Continuer",
+    "back": "Retour",
+    "loading": "Chargement",
+    "languageSwitch": "EN"
+  },
+  "landing": {
+    "headlinePart1": "Rejoignez la révolution",
+    "headlinePart2": "Ayiland",
+    "subtitle": "500 places — sélection en 7 jours",
+    "cta": "Postuler maintenant",
+    "stats": {
+      "candidates": "candidats",
+      "spots": "places",
+      "daysLeft": "jours restants"
+    },
+    "countdown": {
+      "title": "Inscriptions ouvertes pour",
+      "days": "j",
+      "hours": "h",
+      "minutes": "min",
+      "seconds": "s"
+    },
+    "ayi": {
+      "name": "AYI · Votre guide",
+      "intro": "Salut ! Je suis Ayi. Prêt à rejoindre l'aventure ?"
+    }
+  },
+  "steps": {
+    "linkedin": "LinkedIn",
+    "twitter": "X / Twitter",
+    "contact": "Contact",
+    "submission": "Soumission",
+    "step1": {
+      "title": "Connectez votre LinkedIn",
+      "desc": "On vérifie que vous suivez @ayitech",
+      "connectBtn": "Connecter LinkedIn",
+      "followBtn": "Suivre Ayitech sur LinkedIn",
+      "ayiMessage": "On commence par LinkedIn. Connecte ton compte pour qu'on vérifie ton profil."
+    },
+    "step2": {
+      "title": "Connectez votre compte X",
+      "desc": "On vérifie que vous suivez @ayitech",
+      "connectBtn": "Connecter X",
+      "followBtn": "Suivre Ayitech sur X",
+      "ayiMessage": "Maintenant X. Connecte ton compte et abonne-toi à @ayitech."
+    },
+    "step3": {
+      "title": "Vos coordonnées",
+      "desc": "Pour vous joindre en cas de sélection",
+      "emailLabel": "Adresse e-mail",
+      "emailPlaceholder": "vous@exemple.com",
+      "whatsappLabel": "Numéro WhatsApp",
+      "whatsappPlaceholder": "+509 0000 0000",
+      "ayiMessage": "Plus que tes coordonnées. On t'écrira ici si tu es sélectionné."
+    },
+    "step4": {
+      "title": "Vérifiez votre candidature",
+      "desc": "Confirmez vos informations avant de soumettre",
+      "submitBtn": "Soumettre ma candidature",
+      "ayiMessage": "Tout est bon ? Soumets ta candidature et croise les doigts !"
+    }
+  },
+  "success": {
+    "title": "Candidature reçue !",
+    "subtitle": "On revient vers toi sous 7 jours par e-mail",
+    "shareTitle": "Partage l'aventure",
+    "shareText": "Je viens de postuler au programme beta d'Ayiland 🚀 Rejoins-moi :",
+    "backHome": "Retour à l'accueil"
+  },
+  "gate": {
+    "title": "Commençons",
+    "subtitle": "Entre ton e-mail pour démarrer ou reprendre ta candidature",
+    "emailPlaceholder": "ton@email.com",
+    "startBtn": "Démarrer l'aventure",
+    "resumeBtn": "Reprendre",
+    "savedHint": "Tu as une candidature en cours sous cet e-mail. On reprend où tu t'es arrêté.",
+    "newSession": "Nouvelle candidature"
+  },
+  "upload": {
+    "label": "Capture d'écran : prouve que tu suis @ayitech",
+    "hint": "PNG ou JPG, 2 Mo max",
+    "dropHere": "Dépose ici ou clique pour choisir",
+    "uploaded": "Capture envoyée",
+    "remove": "Retirer",
+    "tooLarge": "Fichier trop volumineux (2 Mo max)",
+    "invalidType": "Format non supporté (PNG, JPG uniquement)"
+  },
+  "game": {
+    "xpLabel": "XP",
+    "level": "Niveau",
+    "totalXp": "{value} / {max} XP",
+    "pointsAwarded": "+{points} XP",
+    "currentStep": "Étape {current} / {total}",
+    "achievementUnlocked": "Trophée débloqué !",
+    "achievements": {
+      "firstStep": {
+        "title": "Premier pas",
+        "desc": "Tu as connecté ton premier réseau"
+      },
+      "socialButterfly": {
+        "title": "Papillon social",
+        "desc": "LinkedIn + X connectés"
+      },
+      "loyalFan": {
+        "title": "Vrai supporter",
+        "desc": "Tu suis Ayitech partout"
+      },
+      "readyToRoll": {
+        "title": "Prêt à décoller",
+        "desc": "Coordonnées validées"
+      },
+      "betaWarrior": {
+        "title": "Beta Warrior",
+        "desc": "Candidature soumise !"
+      }
+    }
+  },
+  "admin": {
+    "title": "Admin Ayiland",
+    "loginTitle": "Espace administrateur",
+    "loginSubtitle": "Entre le mot de passe pour accéder au tableau de bord",
+    "passwordPlaceholder": "Mot de passe",
+    "loginBtn": "Se connecter",
+    "logout": "Déconnexion",
+    "wrongPassword": "Mot de passe incorrect",
+    "tabs": {
+      "candidates": "Candidats",
+      "quests": "Missions"
+    },
+    "stats": {
+      "total": "Total",
+      "approved": "Sélectionnés",
+      "pending": "En attente",
+      "rejected": "Refusés"
+    },
+    "filters": {
+      "all": "Tous",
+      "pending": "En attente",
+      "approved": "Sélectionnés",
+      "rejected": "Refusés",
+      "search": "Rechercher e-mail ou handle"
+    },
+    "actions": {
+      "approve": "Approuver",
+      "reject": "Refuser",
+      "reset": "Réinitialiser",
+      "details": "Détails",
+      "viewProof": "Voir la preuve",
+      "seedDemo": "Charger 5 candidats démo"
+    },
+    "candidate": {
+      "email": "E-mail",
+      "whatsapp": "WhatsApp",
+      "linkedin": "LinkedIn",
+      "twitter": "X",
+      "xp": "XP",
+      "submittedAt": "Soumis",
+      "status": "Statut",
+      "proofMissing": "Aucune preuve",
+      "linkedinProof": "Preuve LinkedIn",
+      "twitterProof": "Preuve X",
+      "noCandidates": "Aucun candidat pour l'instant"
+    },
+    "quests": {
+      "subtitle": "Ajoute ou modifie les missions custom. Les missions built-in sont verrouillées.",
+      "builtin": "Built-in",
+      "custom": "Custom",
+      "active": "Active",
+      "inactive": "Inactive",
+      "add": "Nouvelle mission",
+      "edit": "Modifier",
+      "delete": "Supprimer",
+      "form": {
+        "titleFr": "Titre (FR)",
+        "titleEn": "Titre (EN)",
+        "descFr": "Description (FR)",
+        "descEn": "Description (EN)",
+        "url": "Lien externe (optionnel)",
+        "points": "Points XP",
+        "requireScreenshot": "Demander une capture d'écran",
+        "save": "Enregistrer",
+        "cancel": "Annuler"
+      },
+      "empty": "Aucune mission custom. Clique sur \"Nouvelle mission\" pour en ajouter une."
+    }
+  },
+  "errors": {
+    "oauthFailed": "Connexion impossible. Réessayez.",
+    "emailInvalid": "Adresse e-mail invalide",
+    "phoneInvalid": "Numéro WhatsApp invalide",
+    "submitFailed": "Soumission impossible. Réessayez dans un instant.",
+    "alreadySubmitted": "Vous avez déjà postulé avec ce compte."
+  }
+}

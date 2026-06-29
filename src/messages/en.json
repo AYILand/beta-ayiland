@@ -1,0 +1,202 @@
+{
+  "meta": {
+    "title": "AYILand · Beta Program",
+    "description": "Join the first 500 Ayiland users. Selection in 7 days."
+  },
+  "common": {
+    "betaAccess": "BETA ACCESS",
+    "earlyAccess": "EARLY ACCESS PROGRAM",
+    "continue": "Continue",
+    "back": "Back",
+    "loading": "Loading",
+    "languageSwitch": "FR"
+  },
+  "landing": {
+    "headlinePart1": "Join the",
+    "headlinePart2": "Ayiland revolution",
+    "subtitle": "500 spots — selection in 7 days",
+    "cta": "Apply now",
+    "stats": {
+      "candidates": "candidates",
+      "spots": "spots",
+      "daysLeft": "days left"
+    },
+    "countdown": {
+      "title": "Applications open for",
+      "days": "d",
+      "hours": "h",
+      "minutes": "min",
+      "seconds": "s"
+    },
+    "ayi": {
+      "name": "AYI · Your guide",
+      "intro": "Hi! I'm Ayi. Ready to join the adventure?"
+    }
+  },
+  "steps": {
+    "linkedin": "LinkedIn",
+    "twitter": "X / Twitter",
+    "contact": "Contact",
+    "submission": "Submission",
+    "step1": {
+      "title": "Connect your LinkedIn",
+      "desc": "We verify you follow @ayitech",
+      "connectBtn": "Connect LinkedIn",
+      "followBtn": "Follow Ayitech on LinkedIn",
+      "ayiMessage": "Let's start with LinkedIn. Connect your account so we can verify your profile."
+    },
+    "step2": {
+      "title": "Connect your X account",
+      "desc": "We verify you follow @ayitech",
+      "connectBtn": "Connect X",
+      "followBtn": "Follow Ayitech on X",
+      "ayiMessage": "Now X. Connect your account and follow @ayitech."
+    },
+    "step3": {
+      "title": "Your contact info",
+      "desc": "To reach you if selected",
+      "emailLabel": "Email address",
+      "emailPlaceholder": "you@example.com",
+      "whatsappLabel": "WhatsApp number",
+      "whatsappPlaceholder": "+1 555 000 0000",
+      "ayiMessage": "Just your contact info left. We'll reach out here if you're selected."
+    },
+    "step4": {
+      "title": "Review your application",
+      "desc": "Confirm your info before submitting",
+      "submitBtn": "Submit application",
+      "ayiMessage": "All good? Submit your application and fingers crossed!"
+    }
+  },
+  "success": {
+    "title": "Application received!",
+    "subtitle": "We'll get back to you within 7 days by email",
+    "shareTitle": "Share the adventure",
+    "shareText": "I just applied to Ayiland's beta program 🚀 Join me:",
+    "backHome": "Back home"
+  },
+  "gate": {
+    "title": "Let's begin",
+    "subtitle": "Enter your email to start or resume your application",
+    "emailPlaceholder": "your@email.com",
+    "startBtn": "Start the adventure",
+    "resumeBtn": "Resume",
+    "savedHint": "You have an in-progress application under this email. Picking up where you left off.",
+    "newSession": "New application"
+  },
+  "upload": {
+    "label": "Screenshot: prove you follow @ayitech",
+    "hint": "PNG or JPG, 2 MB max",
+    "dropHere": "Drop here or click to choose",
+    "uploaded": "Screenshot saved",
+    "remove": "Remove",
+    "tooLarge": "File too large (2 MB max)",
+    "invalidType": "Unsupported format (PNG, JPG only)"
+  },
+  "game": {
+    "xpLabel": "XP",
+    "level": "Level",
+    "totalXp": "{value} / {max} XP",
+    "pointsAwarded": "+{points} XP",
+    "currentStep": "Step {current} / {total}",
+    "achievementUnlocked": "Achievement unlocked!",
+    "achievements": {
+      "firstStep": {
+        "title": "First Step",
+        "desc": "You connected your first network"
+      },
+      "socialButterfly": {
+        "title": "Social Butterfly",
+        "desc": "LinkedIn + X connected"
+      },
+      "loyalFan": {
+        "title": "Loyal Fan",
+        "desc": "You follow Ayitech everywhere"
+      },
+      "readyToRoll": {
+        "title": "Ready to Roll",
+        "desc": "Contact info validated"
+      },
+      "betaWarrior": {
+        "title": "Beta Warrior",
+        "desc": "Application submitted!"
+      }
+    }
+  },
+  "admin": {
+    "title": "Ayiland Admin",
+    "loginTitle": "Admin area",
+    "loginSubtitle": "Enter the password to access the dashboard",
+    "passwordPlaceholder": "Password",
+    "loginBtn": "Sign in",
+    "logout": "Sign out",
+    "wrongPassword": "Wrong password",
+    "tabs": {
+      "candidates": "Candidates",
+      "quests": "Quests"
+    },
+    "stats": {
+      "total": "Total",
+      "approved": "Approved",
+      "pending": "Pending",
+      "rejected": "Rejected"
+    },
+    "filters": {
+      "all": "All",
+      "pending": "Pending",
+      "approved": "Approved",
+      "rejected": "Rejected",
+      "search": "Search by email or handle"
+    },
+    "actions": {
+      "approve": "Approve",
+      "reject": "Reject",
+      "reset": "Reset",
+      "details": "Details",
+      "viewProof": "View proof",
+      "seedDemo": "Load 5 demo candidates"
+    },
+    "candidate": {
+      "email": "Email",
+      "whatsapp": "WhatsApp",
+      "linkedin": "LinkedIn",
+      "twitter": "X",
+      "xp": "XP",
+      "submittedAt": "Submitted",
+      "status": "Status",
+      "proofMissing": "No proof",
+      "linkedinProof": "LinkedIn proof",
+      "twitterProof": "X proof",
+      "noCandidates": "No candidates yet"
+    },
+    "quests": {
+      "subtitle": "Add or edit custom quests. Built-in quests are locked.",
+      "builtin": "Built-in",
+      "custom": "Custom",
+      "active": "Active",
+      "inactive": "Inactive",
+      "add": "New quest",
+      "edit": "Edit",
+      "delete": "Delete",
+      "form": {
+        "titleFr": "Title (FR)",
+        "titleEn": "Title (EN)",
+        "descFr": "Description (FR)",
+        "descEn": "Description (EN)",
+        "url": "External link (optional)",
+        "points": "XP points",
+        "requireScreenshot": "Require a screenshot",
+        "save": "Save",
+        "cancel": "Cancel"
+      },
+      "empty": "No custom quests yet. Click \"New quest\" to add one."
+    }
+  },
+  "errors": {
+    "oauthFailed": "Connection failed. Please retry.",
+    "emailInvalid": "Invalid email address",
+    "phoneInvalid": "Invalid WhatsApp number",
+    "submitFailed": "Submission failed. Please try again shortly.",
+    "alreadySubmitted": "You have already applied with this account."
+  }
+}
