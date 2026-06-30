@@ -101,7 +101,17 @@ export default function ApplyClient() {
   const [bursts, setBursts] = useState<{ id: string; points: number }[]>([]);
   const [latestAchievement, setLatestAchievement] = useState<Achievement | null>(null);
   const [submitting, setSubmitting] = useState(false);
-  const [ayiState, setAyiState] = useState<"idle" | "pointing" | "celebrating">("pointing");
+  const [ayiOverride, setAyiOverride] = useState<"celebrating" | null>(null);
+
+  const ayiPose: import("@/components/mascot/AyiMascot").AyiPose = ayiOverride
+    ? ayiOverride
+    : state.step === 1
+    ? "pointing"
+    : state.step === 2
+    ? "pointing"
+    : state.step === 3
+    ? "typing"
+    : "presenting";
 
   const stepMessage = useMemo(() => {
     switch (state.step) {
@@ -131,8 +141,8 @@ export default function ApplyClient() {
         const fresh = next.achievements.find((a) => !prev.achievements.includes(a));
         if (fresh) {
           setLatestAchievement(fresh);
-          setAyiState("celebrating");
-          setTimeout(() => setAyiState("pointing"), 1600);
+          setAyiOverride("celebrating");
+          setTimeout(() => setAyiOverride(null), 1600);
         }
       }
       return next;
@@ -331,7 +341,7 @@ export default function ApplyClient() {
           <div className="flex flex-col items-center sm:items-start">
             <SpeechBubble message={stepMessage} />
             <div className="mt-2 w-32 sm:w-full sm:max-w-[160px] lg:max-w-[220px]">
-              <AyiMascot state={ayiState} className="w-full" />
+              <AyiMascot pose={ayiPose} className="w-full" />
             </div>
           </div>
 

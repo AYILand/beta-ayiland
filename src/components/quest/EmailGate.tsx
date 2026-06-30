@@ -60,7 +60,7 @@ export function EmailGate({ hasPrevious, initialEmail, onSubmit }: EmailGateProp
           transition={{ type: "spring", stiffness: 200, damping: 18 }}
           className="w-40"
         >
-          <AyiMascot state="pointing" className="w-full" />
+          <AyiMascot pose="thinking" className="w-full" />
         </motion.div>
 
         <motion.h1

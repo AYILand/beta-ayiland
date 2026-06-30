@@ -52,7 +52,7 @@ export default async function LandingPage({
 
         <section className="mt-8 flex min-h-[calc(100vh-12rem)] flex-col items-center justify-center gap-8 lg:flex-row lg:gap-12">
           <div className="relative flex w-full max-w-sm shrink-0 justify-center lg:order-1">
-            <AyiMascot state="pointing" className="w-72 lg:w-80" />
+            <AyiMascot pose="waving" className="w-72 lg:w-80" />
             <div
               aria-hidden
               className="absolute -bottom-3 left-1/2 h-3 w-32 -translate-x-1/2 rounded-full bg-brand-blue/20 blur-md"

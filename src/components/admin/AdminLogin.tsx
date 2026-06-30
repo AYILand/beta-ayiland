@@ -46,7 +46,7 @@ export function AdminLogin({ onAuth }: AdminLoginProps) {
 
       <section className="relative z-10 mx-auto flex w-full max-w-md flex-1 flex-col items-center justify-center px-6 pb-10 text-center">
         <motion.div initial={{ scale: 0.6, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} className="w-36">
-          <AyiMascot state="thinking" className="w-full" />
+          <AyiMascot pose="detective" className="w-full" />
         </motion.div>
 
         <h1 className="mt-2 text-3xl font-medium tracking-tight">
