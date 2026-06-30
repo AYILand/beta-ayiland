@@ -20,6 +20,7 @@ import { Step2Twitter } from "@/components/steps/Step2Twitter";
 import { Step3Contact } from "@/components/steps/Step3Contact";
 import { Step4Recap } from "@/components/steps/Step4Recap";
 import { EmailGate } from "@/components/quest/EmailGate";
+import { AlreadySubmitted } from "@/components/quest/AlreadySubmitted";
 import { Link, useRouter } from "@/i18n/navigation";
 import { BETA_CONFIG } from "@/lib/config";
 import {
@@ -199,6 +200,19 @@ export default function ApplyClient() {
     return <main className="flex min-h-screen items-center justify-center bg-surface-tint" />;
   }
 
+  if (state.done.submit) {
+    return (
+      <AlreadySubmitted
+        email={email}
+        onNewSession={() => {
+          clearEmail();
+          setEmail(null);
+          setHasPrevious(false);
+        }}
+      />
+    );
+  }
+
   return (
     <main
       className="relative flex h-screen flex-col overflow-hidden"
@@ -208,7 +222,7 @@ export default function ApplyClient() {
       <PointsBurst bursts={bursts} />
       <AchievementToast achievement={latestAchievement} />
 
-      <div className="relative z-10 mx-auto flex w-full max-w-5xl flex-1 flex-col px-5 py-4 lg:px-8">
+      <div className="relative z-10 mx-auto flex w-full max-w-5xl flex-1 flex-col px-4 py-3 sm:px-5 sm:py-4 lg:px-8">
         <header className="flex items-center justify-between">
           <Link href="/">
             <Image
@@ -217,7 +231,8 @@ export default function ApplyClient() {
               width={200}
               height={200}
               priority
-              style={{ height: 64, width: "auto" }}
+              className="h-10 sm:h-14 lg:h-16"
+              style={{ width: "auto", height: "auto" }}
             />
           </Link>
           <div className="flex items-center gap-2">
@@ -239,20 +254,33 @@ export default function ApplyClient() {
           </div>
         </header>
 
-        <div className="mt-3 rounded-xl border border-border bg-white/70 p-3 backdrop-blur">
-          <XpBar xp={state.xp} />
-          <div className="mt-3">
-            <StepStones current={state.step} total={STEP_COUNT} />
+        <div
+          className="relative mt-3 overflow-hidden rounded-2xl border border-border bg-white/70 p-3 backdrop-blur-xl sm:p-4"
+          style={{
+            boxShadow:
+              "0 18px 40px -20px rgba(30,91,168,0.25), 0 8px 18px -8px rgba(42,157,111,0.15), inset 0 1px 0 rgba(255,255,255,0.6)",
+          }}
+        >
+          <div
+            aria-hidden
+            className="pointer-events-none absolute inset-0"
+            style={{
+              background:
+                "radial-gradient(circle at 0% 0%, rgba(30,91,168,0.08), transparent 50%), radial-gradient(circle at 100% 100%, rgba(42,157,111,0.08), transparent 50%)",
+            }}
+          />
+          <div className="relative">
+            <XpBar xp={state.xp} />
+            <div className="mt-3">
+              <StepStones current={state.step} total={STEP_COUNT} />
+            </div>
           </div>
         </div>
 
-        <section
-          className="mt-4 grid flex-1 gap-4 sm:gap-6 lg:gap-8"
-          style={{ gridTemplateColumns: "180px 1fr" }}
-        >
-          <div className="flex flex-col items-center">
+        <section className="mt-4 grid flex-1 grid-cols-1 gap-4 sm:grid-cols-[160px_1fr] sm:gap-5 lg:grid-cols-[240px_1fr] lg:gap-8">
+          <div className="flex flex-col items-center sm:items-start">
             <SpeechBubble message={stepMessage} />
-            <div className="mt-2 w-full max-w-[200px]">
+            <div className="mt-2 w-32 sm:w-full sm:max-w-[160px] lg:max-w-[220px]">
               <AyiMascot state={ayiState} className="w-full" />
             </div>
           </div>

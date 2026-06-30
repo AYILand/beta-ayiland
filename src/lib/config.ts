@@ -4,7 +4,7 @@ export const BETA_CONFIG = {
   logoUrl: "https://ayiland.app/logo-ayiland.png",
   social: {
     ayitechLinkedin: "https://www.linkedin.com/company/ayitech",
-    ayitechTwitter: "https://x.com/ayitech",
+    ayitechTwitter: "https://x.com/ayitechofficial",
   },
 };
 

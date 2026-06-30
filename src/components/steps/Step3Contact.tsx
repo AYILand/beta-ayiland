@@ -23,8 +23,8 @@ export function Step3Contact({ state, onEmail, onWhatsapp }: Step3Props) {
   const [phone, setPhone] = useState(state.data.whatsapp ?? "");
   const [emailErr, setEmailErr] = useState<string | null>(null);
   const [phoneErr, setPhoneErr] = useState<string | null>(null);
-  const lastEmail = useRef<string | null>(state.data.email ?? null);
-  const lastPhone = useRef<string | null>(state.data.whatsapp ?? null);
+  const lastEmail = useRef<string | null>(null);
+  const lastPhone = useRef<string | null>(null);
 
   useEffect(() => {
     if (!email) {

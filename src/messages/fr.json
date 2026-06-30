@@ -68,6 +68,16 @@
       "ayiMessage": "Tout est bon ? Soumets ta candidature et croise les doigts !"
     }
   },
+  "alreadySubmitted": {
+    "title": "Tu as déjà postulé !",
+    "subtitle": "Toutes les missions ont été accomplies pour cette candidature.",
+    "body": "Si on ajoute de nouvelles missions plus tard, elles apparaîtront ici automatiquement quand tu reviens avec cet e-mail.",
+    "asEmail": "Candidature liée à",
+    "shareTitle": "Partage l'aventure",
+    "shareText": "J'ai postulé au programme beta d'Ayiland 🚀 Rejoins-moi :",
+    "newSession": "Postuler avec un autre e-mail",
+    "backHome": "Retour à l'accueil"
+  },
   "success": {
     "title": "Candidature reçue !",
     "subtitle": "On revient vers toi sous 7 jours par e-mail",

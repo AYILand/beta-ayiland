@@ -68,6 +68,16 @@
       "ayiMessage": "All good? Submit your application and fingers crossed!"
     }
   },
+  "alreadySubmitted": {
+    "title": "You've already applied!",
+    "subtitle": "All quests have been completed for this application.",
+    "body": "If we add new quests later, they'll appear here automatically when you come back with this email.",
+    "asEmail": "Application linked to",
+    "shareTitle": "Share the adventure",
+    "shareText": "I applied to Ayiland's beta program 🚀 Join me:",
+    "newSession": "Apply with another email",
+    "backHome": "Back home"
+  },
   "success": {
     "title": "Application received!",
     "subtitle": "We'll get back to you within 7 days by email",
