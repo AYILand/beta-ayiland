@@ -44,6 +44,7 @@ export default function ApplyClient() {
   const [email, setEmail] = useState<string | null>(null);
   const [emailHydrated, setEmailHydrated] = useState(false);
   const [hasPrevious, setHasPrevious] = useState(false);
+  const [remoteSubmitted, setRemoteSubmitted] = useState<boolean | null>(null);
 
   useEffect(() => {
     const stored = loadEmail();
@@ -53,6 +54,27 @@ export default function ApplyClient() {
     }
     setEmailHydrated(true);
   }, []);
+
+  useEffect(() => {
+    if (!email) {
+      setRemoteSubmitted(null);
+      return;
+    }
+    let cancelled = false;
+    setRemoteSubmitted(null);
+    fetch(`/api/candidate?email=${encodeURIComponent(email)}`)
+      .then((r) => r.json())
+      .then(({ candidate }) => {
+        if (cancelled) return;
+        setRemoteSubmitted(!!candidate?.submitted_at);
+      })
+      .catch(() => {
+        if (!cancelled) setRemoteSubmitted(false);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [email]);
 
   const { state, update, hydrated } = useSession(email);
   const [bursts, setBursts] = useState<{ id: string; points: number }[]>([]);
@@ -196,11 +218,11 @@ export default function ApplyClient() {
     );
   }
 
-  if (!hydrated) {
+  if (!hydrated || remoteSubmitted === null) {
     return <main className="flex min-h-screen items-center justify-center bg-surface-tint" />;
   }
 
-  if (state.done.submit) {
+  if (state.done.submit || remoteSubmitted) {
     return (
       <AlreadySubmitted
         email={email}
@@ -208,6 +230,7 @@ export default function ApplyClient() {
           clearEmail();
           setEmail(null);
           setHasPrevious(false);
+          setRemoteSubmitted(null);
         }}
       />
     );

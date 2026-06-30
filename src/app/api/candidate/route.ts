@@ -6,6 +6,24 @@ export const runtime = "nodejs";
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
+export async function GET(req: Request) {
+  const url = new URL(req.url);
+  const email = url.searchParams.get("email")?.trim().toLowerCase() ?? "";
+  if (!EMAIL_RE.test(email)) {
+    return NextResponse.json({ error: "Invalid email" }, { status: 400 });
+  }
+  const supabase = supabaseServer();
+  const { data, error } = await supabase
+    .from("candidates")
+    .select(
+      "email,status,submitted_at,xp,linkedin_handle,twitter_handle,whatsapp,linkedin_proof_url,twitter_proof_url,flow_state",
+    )
+    .eq("email", email)
+    .maybeSingle();
+  if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+  return NextResponse.json({ candidate: data ?? null });
+}
+
 export async function POST(req: Request) {
   let body: {
     email?: string;
