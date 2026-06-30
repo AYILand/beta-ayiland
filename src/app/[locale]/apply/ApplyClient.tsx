@@ -231,8 +231,7 @@ export default function ApplyClient() {
               width={200}
               height={200}
               priority
-              className="h-10 sm:h-14 lg:h-16"
-              style={{ width: "auto", height: "auto" }}
+              className="h-10 w-auto sm:h-12 lg:h-14"
             />
           </Link>
           <div className="flex items-center gap-2">
