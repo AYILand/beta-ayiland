@@ -1,18 +1,22 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { useTranslations } from "next-intl";
 import Image from "next/image";
-import { MessageCircle, Sparkles } from "lucide-react";
+import { Copy, Check, MessageCircle, Sparkles } from "lucide-react";
 import confetti from "canvas-confetti";
 import { Link } from "@/i18n/navigation";
 import { AyiMascot } from "@/components/mascot/AyiMascot";
 import { StageBackground } from "@/components/ui/StageBackground";
 import { BETA_CONFIG } from "@/lib/config";
+import { loadEmail } from "@/lib/session";
 
 export default function SuccessPage() {
   const t = useTranslations("success");
+  const tShare = useTranslations("share");
+  const [refCode, setRefCode] = useState<string | null>(null);
+  const [copied, setCopied] = useState(false);
 
   useEffect(() => {
     const colors = ["#1E5BA8", "#2A9D6F", "#3DB58A", "#3B82C4"];
@@ -32,9 +36,28 @@ export default function SuccessPage() {
     setTimeout(() => shoot({ x: 0.5, y: 0.5 }), 500);
   }, []);
 
-  const shareUrl =
-    typeof window !== "undefined" ? `${window.location.origin}/` : "https://beta.ayiland.app";
-  const shareText = t("shareText");
+  useEffect(() => {
+    const email = loadEmail();
+    if (!email) return;
+    fetch(`/api/candidate?email=${encodeURIComponent(email)}`)
+      .then((r) => r.json())
+      .then(({ candidate }) => {
+        if (candidate?.ref_code) setRefCode(candidate.ref_code);
+      })
+      .catch(() => {});
+  }, []);
+
+  const origin =
+    typeof window !== "undefined" ? window.location.origin : "https://beta.ayiland.app";
+  const shareUrl = refCode ? `${origin}/?ref=${refCode}` : `${origin}/`;
+
+  async function copyLink() {
+    try {
+      await navigator.clipboard.writeText(shareUrl);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 1800);
+    } catch {}
+  }
 
   return (
     <main
@@ -50,14 +73,14 @@ export default function SuccessPage() {
           width={200}
           height={200}
           priority
-          style={{ height: 64, width: "auto" }}
+          className="h-12 w-auto sm:h-14"
         />
 
         <motion.div
           initial={{ scale: 0.6, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
           transition={{ type: "spring", stiffness: 220, damping: 18 }}
-          className="mt-6 w-full max-w-xs"
+          className="mt-6 w-full max-w-[200px]"
         >
           <AyiMascot state="celebrating" className="w-full" />
         </motion.div>
@@ -89,6 +112,21 @@ export default function SuccessPage() {
             <Sparkles size={14} />
             {t("shareTitle")}
           </p>
+
+          <div className="mt-3 flex items-center gap-2">
+            <code className="flex-1 truncate rounded-lg border border-border bg-surface-soft px-3 py-2 text-xs">
+              {shareUrl}
+            </code>
+            <button
+              type="button"
+              onClick={copyLink}
+              className="inline-flex items-center gap-1 rounded-lg brand-gradient-bg px-3 py-2 text-xs font-medium text-white"
+            >
+              {copied ? <Check size={12} /> : <Copy size={12} />}
+              {copied ? tShare("copied") : tShare("copyBtn")}
+            </button>
+          </div>
+
           <div className="mt-3 grid grid-cols-3 gap-2">
             <ShareButton
               icon={<span className="text-sm font-medium">in</span>}
@@ -100,13 +138,13 @@ export default function SuccessPage() {
               icon={<span className="text-base">𝕏</span>}
               label="X"
               bg="#000000"
-              href={`https://x.com/intent/tweet?text=${encodeURIComponent(shareText)}&url=${encodeURIComponent(shareUrl)}`}
+              href={`https://x.com/intent/tweet?text=${encodeURIComponent(tShare("twitter"))}&url=${encodeURIComponent(shareUrl)}`}
             />
             <ShareButton
               icon={<MessageCircle size={16} />}
               label="WhatsApp"
               bg="#25D366"
-              href={`https://wa.me/?text=${encodeURIComponent(shareText + " " + shareUrl)}`}
+              href={`https://wa.me/?text=${encodeURIComponent(tShare("whatsapp", { url: shareUrl }))}`}
             />
           </div>
         </motion.div>

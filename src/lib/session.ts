@@ -4,7 +4,24 @@ import { useCallback, useEffect, useState } from "react";
 import { initialFlowState, type FlowState } from "./flow";
 
 const EMAIL_KEY = "ayiland-beta-email";
+const REF_KEY = "ayiland-beta-ref";
 const sessionKey = (email: string) => `ayiland-beta-session-${email.toLowerCase()}`;
+
+export function loadRefCode(): string | null {
+  if (typeof window === "undefined") return null;
+  return window.localStorage.getItem(REF_KEY);
+}
+
+export function persistRefCode(code: string) {
+  if (typeof window === "undefined") return;
+  if (!/^[a-z0-9]{6}$/.test(code)) return;
+  window.localStorage.setItem(REF_KEY, code.toLowerCase());
+}
+
+export function clearRefCode() {
+  if (typeof window === "undefined") return;
+  window.localStorage.removeItem(REF_KEY);
+}
 
 export function loadEmail(): string | null {
   if (typeof window === "undefined") return null;

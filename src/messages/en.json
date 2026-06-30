@@ -82,8 +82,36 @@
     "title": "Application received!",
     "subtitle": "We'll get back to you within 7 days by email",
     "shareTitle": "Share the adventure",
-    "shareText": "I just applied to Ayiland's beta program 🚀 Join me:",
+    "shareText": "I just applied to the Ayiland beta 🌊",
     "backHome": "Back home"
+  },
+  "share": {
+    "linkedin": "Just applied to the Ayiland private beta — 500 spots, that's it. If you like getting in before the rush, here's your shot 👇",
+    "twitter": "Ayiland opened 500 beta spots. I'm in. What you waiting for? 🌊",
+    "whatsapp": "Yo check this 👀 Ayiland just launched the beta — only 500 spots. I just applied. You gotta be in too: {url}",
+    "referralLabel": "Your referral link",
+    "referralHint": "Anyone who signs up via this link shows up in your referrals. +100 XP per confirmed referral.",
+    "copyBtn": "Copy",
+    "copied": "Copied!",
+    "yourReferrals": "Your referrals"
+  },
+  "leaderboard": {
+    "title": "Top referrers",
+    "subtitle": "The ambassadors spreading Ayiland",
+    "noteSelection": "Final selection stays at the team's discretion — referrals are a visible bonus, not a guaranteed access.",
+    "referralsCol": "Referrals",
+    "xpCol": "XP",
+    "emptyTitle": "Leaderboard opens soon",
+    "emptyBody": "The board will appear as the first top referrers emerge. You can start inviting now!",
+    "displayMode": {
+      "label": "How you appear on the leaderboard",
+      "name_initial": "First name + initial (recommended)",
+      "handle": "My full LinkedIn handle",
+      "anonymous": "Anonymous (mystery alias)",
+      "hidden": "Don't show me"
+    },
+    "anonymousAlias": "Mystery #{code}",
+    "rank": "#{rank}"
   },
   "gate": {
     "title": "Let's begin",

@@ -5,6 +5,7 @@ import { AyiMascot } from "@/components/mascot/AyiMascot";
 import { Countdown } from "@/components/ui/Countdown";
 import { LangSwitcher } from "@/components/ui/LangSwitcher";
 import { StageBackground } from "@/components/ui/StageBackground";
+import { LeaderboardSection } from "@/components/landing/LeaderboardSection";
 import { BETA_CONFIG } from "@/lib/config";
 
 export default async function LandingPage({
@@ -27,7 +28,7 @@ export default async function LandingPage({
     >
       <StageBackground />
 
-      <div className="relative z-10 mx-auto flex min-h-screen max-w-6xl flex-col px-6 py-6 lg:px-10">
+      <div className="relative z-10 mx-auto flex max-w-6xl flex-col px-6 py-6 lg:px-10">
         <header className="flex items-center justify-between">
           <Image
             src={BETA_CONFIG.logoUrl}
@@ -49,7 +50,7 @@ export default async function LandingPage({
           </div>
         </header>
 
-        <section className="mt-8 flex flex-1 flex-col items-center justify-center gap-8 lg:flex-row lg:gap-12">
+        <section className="mt-8 flex min-h-[calc(100vh-12rem)] flex-col items-center justify-center gap-8 lg:flex-row lg:gap-12">
           <div className="relative flex w-full max-w-sm shrink-0 justify-center lg:order-1">
             <AyiMascot state="pointing" className="w-72 lg:w-80" />
             <div
@@ -99,6 +100,7 @@ export default async function LandingPage({
           </div>
         </section>
       </div>
+      <LeaderboardSection />
     </main>
   );
 }

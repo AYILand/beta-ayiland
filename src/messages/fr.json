@@ -82,8 +82,36 @@
     "title": "Candidature reçue !",
     "subtitle": "On revient vers toi sous 7 jours par e-mail",
     "shareTitle": "Partage l'aventure",
-    "shareText": "Je viens de postuler au programme beta d'Ayiland 🚀 Rejoins-moi :",
+    "shareText": "Je viens de postuler à la beta Ayiland 🌊",
     "backHome": "Retour à l'accueil"
+  },
+  "share": {
+    "linkedin": "Je viens de postuler à la beta privée d'Ayiland — 500 places, point. Si t'es du genre à vouloir tester avant que le monde entier débarque, voilà ton tour 👇",
+    "twitter": "Ayiland ouvre 500 places en beta. Je suis dedans. T'attends quoi ? 🌊",
+    "whatsapp": "Eh, regarde 👀 Ayiland lance sa beta — 500 places seulement. Je viens de postuler. Faut que tu sois dedans toi aussi : {url}",
+    "referralLabel": "Ton lien de parrainage",
+    "referralHint": "Chaque personne qui s'inscrit via ce lien apparaît dans tes filleuls. +100 XP par filleul confirmé.",
+    "copyBtn": "Copier",
+    "copied": "Copié !",
+    "yourReferrals": "Tes filleuls"
+  },
+  "leaderboard": {
+    "title": "Top parrains",
+    "subtitle": "Les ambassadeurs qui font rayonner Ayiland",
+    "noteSelection": "La sélection finale reste à la discrétion de l'équipe — le parrainage est un bonus visible, pas une garantie d'accès.",
+    "referralsCol": "Filleuls",
+    "xpCol": "XP",
+    "emptyTitle": "Le leaderboard s'ouvre bientôt",
+    "emptyBody": "Le tableau apparaîtra dès que les premiers parrains se distinguent. Tu peux déjà commencer à inviter !",
+    "displayMode": {
+      "label": "Comment tu apparais sur le leaderboard",
+      "name_initial": "Prénom + initiale (recommandé)",
+      "handle": "Mon handle LinkedIn complet",
+      "anonymous": "Anonyme (alias mystère)",
+      "hidden": "Ne pas apparaître"
+    },
+    "anonymousAlias": "Mystery #{code}",
+    "rank": "#{rank}"
   },
   "gate": {
     "title": "Commençons",

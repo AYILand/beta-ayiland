@@ -32,7 +32,15 @@ import {
   type ActionId,
   type Achievement,
 } from "@/lib/flow";
-import { clearEmail, loadEmail, loadSession, persistEmail, useSession } from "@/lib/session";
+import {
+  clearEmail,
+  loadEmail,
+  loadRefCode,
+  loadSession,
+  persistEmail,
+  persistRefCode,
+  useSession,
+} from "@/lib/session";
 import { uploadProof } from "@/lib/storage";
 
 export default function ApplyClient() {
@@ -45,14 +53,25 @@ export default function ApplyClient() {
   const [emailHydrated, setEmailHydrated] = useState(false);
   const [hasPrevious, setHasPrevious] = useState(false);
   const [remoteSubmitted, setRemoteSubmitted] = useState<boolean | null>(null);
+  const [remoteCandidate, setRemoteCandidate] = useState<{
+    ref_code: string;
+    display_mode: "name_initial" | "handle" | "anonymous" | "hidden";
+    linkedin_handle: string | null;
+  } | null>(null);
+  const [referralCount, setReferralCount] = useState(0);
 
   useEffect(() => {
+    const urlRef = searchParams.get("ref");
+    if (urlRef && /^[a-z0-9]{6}$/i.test(urlRef)) {
+      persistRefCode(urlRef);
+    }
     const stored = loadEmail();
     if (stored) {
       setEmail(stored);
       setHasPrevious(!!loadSession(stored));
     }
     setEmailHydrated(true);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -64,9 +83,11 @@ export default function ApplyClient() {
     setRemoteSubmitted(null);
     fetch(`/api/candidate?email=${encodeURIComponent(email)}`)
       .then((r) => r.json())
-      .then(({ candidate }) => {
+      .then(({ candidate, referralCount }) => {
         if (cancelled) return;
         setRemoteSubmitted(!!candidate?.submitted_at);
+        setRemoteCandidate(candidate ?? null);
+        setReferralCount(referralCount ?? 0);
       })
       .catch(() => {
         if (!cancelled) setRemoteSubmitted(false);
@@ -178,6 +199,7 @@ export default function ApplyClient() {
     setSubmitting(true);
     performAction("submit");
     try {
+      const refCode = loadRefCode();
       await fetch("/api/candidate", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -191,6 +213,7 @@ export default function ApplyClient() {
           twitterProofUrl: state.data.twitterProof,
           flowState: { ...state, xp: state.xp + POINTS.submit },
           submit: true,
+          referredByRefCode: refCode ?? undefined,
         }),
       });
     } catch (err) {
@@ -226,11 +249,16 @@ export default function ApplyClient() {
     return (
       <AlreadySubmitted
         email={email}
+        refCode={remoteCandidate?.ref_code ?? null}
+        referralCount={referralCount}
+        displayMode={remoteCandidate?.display_mode ?? "name_initial"}
+        linkedinHandle={remoteCandidate?.linkedin_handle ?? state.data.linkedinHandle ?? null}
         onNewSession={() => {
           clearEmail();
           setEmail(null);
           setHasPrevious(false);
           setRemoteSubmitted(null);
+          setRemoteCandidate(null);
         }}
       />
     );
