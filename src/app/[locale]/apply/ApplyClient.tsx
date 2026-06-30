@@ -34,7 +34,7 @@ import {
 import { clearEmail, loadEmail, loadSession, persistEmail, useSession } from "@/lib/session";
 import { uploadProof } from "@/lib/storage";
 
-export default function ApplyPage() {
+export default function ApplyClient() {
   const t = useTranslations();
   const router = useRouter();
   const searchParams = useSearchParams();
