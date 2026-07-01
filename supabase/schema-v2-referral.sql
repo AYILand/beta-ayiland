@@ -70,3 +70,24 @@ from public.candidates;
 -- 6. RLS : autoriser la lecture publique des vues
 grant select on public.leaderboard to anon;
 grant select on public.leaderboard_stats to anon;
+
+-- 7. Vue rank pour chaque candidat soumis (utilisée par /me)
+create or replace view public.candidate_ranks as
+select
+  c.email,
+  c.xp,
+  (
+    select count(*)
+    from public.candidates r
+    where r.referred_by = c.email and r.submitted_at is not null
+  ) as referral_count,
+  row_number() over (
+    order by
+      (select count(*) from public.candidates r where r.referred_by = c.email and r.submitted_at is not null) desc,
+      c.xp desc,
+      c.created_at asc
+  ) as rank
+from public.candidates c
+where c.submitted_at is not null;
+
+grant select on public.candidate_ranks to anon;

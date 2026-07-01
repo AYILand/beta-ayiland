@@ -43,17 +43,15 @@ export async function GET(req: Request) {
   let approvedCount = 0;
 
   if (data) {
-    const [refRes, aheadRes, totalRes, approvedRes] = await Promise.all([
+    const [refRes, rankRes, totalRes, approvedRes] = await Promise.all([
       supabase
         .from("candidates")
         .select("email", { count: "exact", head: true })
         .eq("referred_by", email)
         .not("submitted_at", "is", null),
-      supabase
-        .from("candidates")
-        .select("email", { count: "exact", head: true })
-        .not("submitted_at", "is", null)
-        .gt("xp", data.xp ?? 0),
+      data.submitted_at
+        ? supabase.from("candidate_ranks").select("rank").eq("email", email).maybeSingle()
+        : Promise.resolve({ data: null }),
       supabase
         .from("candidates")
         .select("email", { count: "exact", head: true })
@@ -64,7 +62,7 @@ export async function GET(req: Request) {
         .eq("status", "approved"),
     ]);
     referralCount = refRes.count ?? 0;
-    if (data.submitted_at) rank = (aheadRes.count ?? 0) + 1;
+    rank = (rankRes.data as { rank: number } | null)?.rank ?? null;
     totalSubmitted = totalRes.count ?? 0;
     approvedCount = approvedRes.count ?? 0;
   }
