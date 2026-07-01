@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { supabaseServer } from "@/lib/supabase";
 import { sendBetaEmail } from "@/lib/mailer";
-import { POINTS, REFERRAL_BONUS_XP, type ActionId } from "@/lib/flow";
+import { MAX_XP, POINTS, REFERRAL_BONUS_XP, type ActionId } from "@/lib/flow";
 
 function baseXpFromDone(done: unknown): number {
   const map = (done ?? {}) as Record<string, boolean>;
@@ -75,13 +75,15 @@ export async function GET(req: Request) {
     totalSubmitted = totalRes.count ?? 0;
     approvedCount = approvedRes.count ?? 0;
 
-    // Retroactive backfill : if stored xp < canonical (base + referral bonus),
-    // update it. Fixes candidates whose client submitted 0 XP.
+    // Retroactive backfill : if submitted_at is set, the candidate completed the flow
+    // (the UI enforces done flags before allowing submit). Force at least MAX_XP even
+    // if done flags didn't persist correctly on the client. Add referral bonus on top.
     if (data.submitted_at) {
-      const baseXp = baseXpFromDone(
+      const baseXpFromFlags = baseXpFromDone(
         (data.flow_state as { done?: unknown } | null)?.done,
       );
-      const canonicalXp = baseXp + referralCount * REFERRAL_BONUS_XP;
+      const canonicalBaseXp = Math.max(baseXpFromFlags, MAX_XP);
+      const canonicalXp = canonicalBaseXp + referralCount * REFERRAL_BONUS_XP;
       if ((data.xp ?? 0) < canonicalXp) {
         await supabase.from("candidates").update({ xp: canonicalXp }).eq("email", email);
         (data as { xp: number }).xp = canonicalXp;
@@ -158,9 +160,11 @@ export async function POST(req: Request) {
     flow_state: body.flowState ?? {},
   };
 
-  // Only set xp on first submission (preserves any accumulated referral bonus on later updates)
+  // Only set xp on first submission (preserves any accumulated referral bonus on later updates).
+  // If it's a submit call, force MAX_XP (the submission itself is proof of completion),
+  // otherwise use what the done flags say so far.
   if (!existing?.submitted_at) {
-    payload.xp = canonicalBaseXp;
+    payload.xp = body.submit ? Math.max(canonicalBaseXp, MAX_XP) : canonicalBaseXp;
   }
   if (body.submit) payload.submitted_at = new Date().toISOString();
   if (body.displayMode) payload.display_mode = body.displayMode;
