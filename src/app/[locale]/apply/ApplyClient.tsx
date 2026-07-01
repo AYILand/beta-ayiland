@@ -43,6 +43,8 @@ import {
 } from "@/lib/session";
 import { uploadProof } from "@/lib/storage";
 
+let syncTimeoutId: ReturnType<typeof setTimeout> | null = null;
+
 export default function ApplyClient() {
   const t = useTranslations();
   const router = useRouter();
@@ -174,6 +176,43 @@ export default function ApplyClient() {
     router.replace(`/apply`);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [auth0User, email, hydrated, searchParams]);
+
+  // Server sync: every time the flow state changes meaningfully, push to /api/candidate.
+  // Debounced so rapid successive updates coalesce into a single POST. The server ignores
+  // client-supplied xp and recomputes it from done flags, so this stays authoritative.
+  useEffect(() => {
+    if (!email || !hydrated) return;
+    if (state.xp === 0 && Object.keys(state.done).length === 0) return;
+    if (syncTimeoutId) clearTimeout(syncTimeoutId);
+    syncTimeoutId = setTimeout(() => {
+      fetch("/api/candidate", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email,
+          xp: state.xp,
+          linkedinHandle: state.data.linkedinHandle,
+          twitterHandle: state.data.twitterHandle,
+          whatsapp: state.data.whatsapp,
+          linkedinProofUrl: state.data.linkedinProof,
+          twitterProofUrl: state.data.twitterProof,
+          flowState: state,
+          referredByRefCode: loadRefCode() ?? undefined,
+        }),
+      }).catch((err) => console.error("Sync failed", err));
+    }, 400);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [
+    email,
+    hydrated,
+    state.xp,
+    state.step,
+    state.data.linkedinHandle,
+    state.data.twitterHandle,
+    state.data.whatsapp,
+    state.data.linkedinProof,
+    state.data.twitterProof,
+  ]);
 
   useEffect(() => {
     if (bursts.length === 0) return;

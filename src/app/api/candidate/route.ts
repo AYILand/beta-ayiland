@@ -141,31 +141,33 @@ export async function POST(req: Request) {
 
   const { data: existing } = await supabase
     .from("candidates")
-    .select("referred_by,display_mode,submitted_at")
+    .select(
+      "referred_by,display_mode,submitted_at,xp,linkedin_handle,twitter_handle,whatsapp,linkedin_proof_url,twitter_proof_url",
+    )
     .eq("email", email)
     .maybeSingle();
 
   // XP is ALWAYS computed server-side from flow_state.done, never trusted from the client.
-  // This prevents "0 XP after submission" bugs when the client state is out of sync.
+  // Rule: newXp = max(existingXp, canonical). Never decreases. Preserves referral bonus
+  // (referral bonus lives in the same xp column and can push xp above the base canonical).
   const flowStateBody = (body.flowState ?? {}) as { done?: unknown };
   const canonicalBaseXp = baseXpFromDone(flowStateBody.done);
+  const isFirstSubmitCall = body.submit && !existing?.submitted_at;
+  const targetBase = isFirstSubmitCall
+    ? Math.max(canonicalBaseXp, MAX_XP)
+    : canonicalBaseXp;
+  const nextXp = Math.max(existing?.xp ?? 0, targetBase);
 
   const payload: Record<string, unknown> = {
     email,
-    linkedin_handle: body.linkedinHandle ?? null,
-    twitter_handle: body.twitterHandle ?? null,
-    whatsapp: body.whatsapp ?? null,
-    linkedin_proof_url: body.linkedinProofUrl ?? null,
-    twitter_proof_url: body.twitterProofUrl ?? null,
+    xp: nextXp,
+    linkedin_handle: body.linkedinHandle ?? existing?.linkedin_handle ?? null,
+    twitter_handle: body.twitterHandle ?? existing?.twitter_handle ?? null,
+    whatsapp: body.whatsapp ?? existing?.whatsapp ?? null,
+    linkedin_proof_url: body.linkedinProofUrl ?? existing?.linkedin_proof_url ?? null,
+    twitter_proof_url: body.twitterProofUrl ?? existing?.twitter_proof_url ?? null,
     flow_state: body.flowState ?? {},
   };
-
-  // Only set xp on first submission (preserves any accumulated referral bonus on later updates).
-  // If it's a submit call, force MAX_XP (the submission itself is proof of completion),
-  // otherwise use what the done flags say so far.
-  if (!existing?.submitted_at) {
-    payload.xp = body.submit ? Math.max(canonicalBaseXp, MAX_XP) : canonicalBaseXp;
-  }
   if (body.submit) payload.submitted_at = new Date().toISOString();
   if (body.displayMode) payload.display_mode = body.displayMode;
   if (referredByEmail && !existing?.referred_by) {
