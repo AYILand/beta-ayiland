@@ -1,7 +1,15 @@
 import { NextResponse } from "next/server";
 import { supabaseServer } from "@/lib/supabase";
 import { sendBetaEmail } from "@/lib/mailer";
-import { REFERRAL_BONUS_XP } from "@/lib/flow";
+import { POINTS, REFERRAL_BONUS_XP, type ActionId } from "@/lib/flow";
+
+function baseXpFromDone(done: unknown): number {
+  const map = (done ?? {}) as Record<string, boolean>;
+  return (Object.keys(POINTS) as ActionId[]).reduce(
+    (sum, action) => sum + (map[action] ? POINTS[action] : 0),
+    0,
+  );
+}
 
 export const runtime = "nodejs";
 
@@ -66,6 +74,19 @@ export async function GET(req: Request) {
     rank = (rankRes.data as { rank: number } | null)?.rank ?? null;
     totalSubmitted = totalRes.count ?? 0;
     approvedCount = approvedRes.count ?? 0;
+
+    // Retroactive backfill : if stored xp < canonical (base + referral bonus),
+    // update it. Fixes candidates whose client submitted 0 XP.
+    if (data.submitted_at) {
+      const baseXp = baseXpFromDone(
+        (data.flow_state as { done?: unknown } | null)?.done,
+      );
+      const canonicalXp = baseXp + referralCount * REFERRAL_BONUS_XP;
+      if ((data.xp ?? 0) < canonicalXp) {
+        await supabase.from("candidates").update({ xp: canonicalXp }).eq("email", email);
+        (data as { xp: number }).xp = canonicalXp;
+      }
+    }
   }
 
   return NextResponse.json({
@@ -122,9 +143,13 @@ export async function POST(req: Request) {
     .eq("email", email)
     .maybeSingle();
 
+  // XP is ALWAYS computed server-side from flow_state.done, never trusted from the client.
+  // This prevents "0 XP after submission" bugs when the client state is out of sync.
+  const flowStateBody = (body.flowState ?? {}) as { done?: unknown };
+  const canonicalBaseXp = baseXpFromDone(flowStateBody.done);
+
   const payload: Record<string, unknown> = {
     email,
-    xp: body.xp ?? 0,
     linkedin_handle: body.linkedinHandle ?? null,
     twitter_handle: body.twitterHandle ?? null,
     whatsapp: body.whatsapp ?? null,
@@ -132,6 +157,11 @@ export async function POST(req: Request) {
     twitter_proof_url: body.twitterProofUrl ?? null,
     flow_state: body.flowState ?? {},
   };
+
+  // Only set xp on first submission (preserves any accumulated referral bonus on later updates)
+  if (!existing?.submitted_at) {
+    payload.xp = canonicalBaseXp;
+  }
   if (body.submit) payload.submitted_at = new Date().toISOString();
   if (body.displayMode) payload.display_mode = body.displayMode;
   if (referredByEmail && !existing?.referred_by) {
