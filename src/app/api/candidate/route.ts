@@ -38,16 +38,44 @@ export async function GET(req: Request) {
   if (error) return NextResponse.json({ error: error.message }, { status: 500 });
 
   let referralCount = 0;
+  let rank: number | null = null;
+  let totalSubmitted = 0;
+  let approvedCount = 0;
+
   if (data) {
-    const { count } = await supabase
-      .from("candidates")
-      .select("email", { count: "exact", head: true })
-      .eq("referred_by", email)
-      .not("submitted_at", "is", null);
-    referralCount = count ?? 0;
+    const [refRes, aheadRes, totalRes, approvedRes] = await Promise.all([
+      supabase
+        .from("candidates")
+        .select("email", { count: "exact", head: true })
+        .eq("referred_by", email)
+        .not("submitted_at", "is", null),
+      supabase
+        .from("candidates")
+        .select("email", { count: "exact", head: true })
+        .not("submitted_at", "is", null)
+        .gt("xp", data.xp ?? 0),
+      supabase
+        .from("candidates")
+        .select("email", { count: "exact", head: true })
+        .not("submitted_at", "is", null),
+      supabase
+        .from("candidates")
+        .select("email", { count: "exact", head: true })
+        .eq("status", "approved"),
+    ]);
+    referralCount = refRes.count ?? 0;
+    if (data.submitted_at) rank = (aheadRes.count ?? 0) + 1;
+    totalSubmitted = totalRes.count ?? 0;
+    approvedCount = approvedRes.count ?? 0;
   }
 
-  return NextResponse.json({ candidate: data ?? null, referralCount });
+  return NextResponse.json({
+    candidate: data ?? null,
+    referralCount,
+    rank,
+    totalSubmitted,
+    approvedCount,
+  });
 }
 
 export async function POST(req: Request) {

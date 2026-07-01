@@ -149,12 +149,22 @@ export default function SuccessPage() {
           </div>
         </motion.div>
 
-        <Link
-          href="/"
-          className="mt-8 text-xs font-medium uppercase tracking-widest text-text-secondary underline-offset-4 hover:text-brand-blue hover:underline"
-        >
-          {t("backHome")}
-        </Link>
+        <div className="mt-8 flex flex-col items-center gap-3 sm:flex-row">
+          <Link
+            href="/me"
+            className="inline-flex items-center gap-1.5 rounded-xl brand-gradient-bg px-5 py-2.5 text-xs font-medium text-white"
+            style={{ boxShadow: "0 8px 20px rgba(30,91,168,0.25)" }}
+          >
+            <Sparkles size={12} />
+            Mon tableau de bord →
+          </Link>
+          <Link
+            href="/"
+            className="text-xs font-medium uppercase tracking-widest text-text-secondary underline-offset-4 hover:text-brand-blue hover:underline"
+          >
+            {t("backHome")}
+          </Link>
+        </div>
       </div>
     </main>
   );

@@ -68,6 +68,50 @@
       "ayiMessage": "All good? Submit your application and fingers crossed!"
     }
   },
+  "me": {
+    "title": "Dashboard",
+    "welcome": "Hi {name} 👋",
+    "welcomeFallback": "Hi 👋",
+    "yourSpace": "Your personal space — come back here anytime with your email.",
+    "stats": {
+      "rank": "Your rank",
+      "points": "Points",
+      "referrals": "Referrals",
+      "spots": "Spots",
+      "unknown": "—"
+    },
+    "status": {
+      "pending": "Under review",
+      "approved": "Selected",
+      "rejected": "Not selected"
+    },
+    "roadmap": {
+      "title": "Your progress",
+      "registered": "Sign-up",
+      "linkedin": "LinkedIn connected",
+      "twitter": "X connected",
+      "contact": "Contact info filled",
+      "submitted": "Application submitted",
+      "review": "Under team review",
+      "access": "Beta access granted"
+    },
+    "referral": {
+      "title": "Your referral link",
+      "hint": "Every complete application via your link bumps you up the leaderboard. Final selection stays manual, but it's a strong signal for the team."
+    },
+    "rewards": {
+      "title": "Unlockable rewards",
+      "subtitle": "The more you invite, the more visible you become",
+      "top100": "Pioneer badge + newsletter shoutout",
+      "top50": "Public mention on the Ayiland landing",
+      "top10": "🌊 Guaranteed early access at beta launch",
+      "top5": "Private meet with the founding team",
+      "currentRank": "Your current rank"
+    },
+    "logout": "Switch account",
+    "noCandidate": "No application found for this email. Apply first:",
+    "applyBtn": "Apply now"
+  },
   "alreadySubmitted": {
     "title": "You've already applied!",
     "subtitle": "All quests have been completed for this application.",

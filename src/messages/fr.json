@@ -68,6 +68,50 @@
       "ayiMessage": "Tout est bon ? Soumets ta candidature et croise les doigts !"
     }
   },
+  "me": {
+    "title": "Tableau de bord",
+    "welcome": "Salut {name} 👋",
+    "welcomeFallback": "Salut 👋",
+    "yourSpace": "Ton espace personnel — tu peux revenir ici à tout moment avec ton e-mail.",
+    "stats": {
+      "rank": "Ton rang",
+      "points": "Points",
+      "referrals": "Filleuls",
+      "spots": "Places",
+      "unknown": "—"
+    },
+    "status": {
+      "pending": "En attente de revue",
+      "approved": "Sélectionné·e",
+      "rejected": "Refusé·e"
+    },
+    "roadmap": {
+      "title": "Ta progression",
+      "registered": "Inscription",
+      "linkedin": "LinkedIn connecté",
+      "twitter": "X connecté",
+      "contact": "Coordonnées remplies",
+      "submitted": "Candidature soumise",
+      "review": "En revue par l'équipe",
+      "access": "Accès beta accordé"
+    },
+    "referral": {
+      "title": "Ton lien de parrainage",
+      "hint": "Chaque candidature complète via ton lien te fait monter au leaderboard. La sélection finale reste manuelle, mais c'est un signal fort pour l'équipe."
+    },
+    "rewards": {
+      "title": "Récompenses débloquables",
+      "subtitle": "Plus tu invites, plus tu deviens visible",
+      "top100": "Badge Pioneer + mention dans la newsletter",
+      "top50": "Mention publique sur la landing Ayiland",
+      "top10": "🌊 Accès anticipé garanti dès l'ouverture beta",
+      "top5": "Rencontre privée avec l'équipe fondatrice",
+      "currentRank": "Ton rang actuel"
+    },
+    "logout": "Changer de compte",
+    "noCandidate": "On ne trouve pas de candidature à cet e-mail. Postule d'abord :",
+    "applyBtn": "Postuler maintenant"
+  },
   "alreadySubmitted": {
     "title": "Tu as déjà postulé !",
     "subtitle": "Toutes les missions ont été accomplies pour cette candidature.",
