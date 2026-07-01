@@ -315,7 +315,7 @@ export default function ApplyClient() {
 
   return (
     <main
-      className="relative flex h-screen flex-col overflow-hidden"
+      className="relative flex min-h-screen flex-col"
       style={{ background: "linear-gradient(135deg, #f0f7ff 0%, #ffffff 45%, #ecfdf5 100%)" }}
     >
       <StageBackground />
