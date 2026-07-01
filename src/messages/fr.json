@@ -178,7 +178,7 @@
   "game": {
     "xpLabel": "XP",
     "level": "Niveau",
-    "totalXp": "{value} / {max} XP",
+    "totalXp": "{value} XP",
     "pointsAwarded": "+{points} XP",
     "currentStep": "Étape {current} / {total}",
     "achievementUnlocked": "Trophée débloqué !",

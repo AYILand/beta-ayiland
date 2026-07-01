@@ -72,6 +72,8 @@ grant select on public.leaderboard to anon;
 grant select on public.leaderboard_stats to anon;
 
 -- 7. Vue rank pour chaque candidat soumis (utilisée par /me)
+-- Rang basé sur XP pur : les points de parrainage sont ajoutés au XP dans candidates.xp,
+-- donc plus de filleuls = plus de XP = meilleur rang. Simple et cohérent.
 create or replace view public.candidate_ranks as
 select
   c.email,
@@ -81,13 +83,26 @@ select
     from public.candidates r
     where r.referred_by = c.email and r.submitted_at is not null
   ) as referral_count,
-  row_number() over (
-    order by
-      (select count(*) from public.candidates r where r.referred_by = c.email and r.submitted_at is not null) desc,
-      c.xp desc,
-      c.created_at asc
-  ) as rank
+  row_number() over (order by c.xp desc, c.created_at asc) as rank
 from public.candidates c
 where c.submitted_at is not null;
 
 grant select on public.candidate_ranks to anon;
+
+-- 8. Simplifie aussi la vue leaderboard : rang par XP pur
+create or replace view public.leaderboard as
+select
+  c.ref_code,
+  c.linkedin_handle,
+  c.display_name,
+  c.display_mode,
+  c.xp,
+  (
+    select count(*)
+    from public.candidates r
+    where r.referred_by = c.email and r.submitted_at is not null
+  ) as referral_count
+from public.candidates c
+where c.display_mode <> 'hidden' and c.submitted_at is not null
+order by c.xp desc, c.created_at asc
+limit 10;

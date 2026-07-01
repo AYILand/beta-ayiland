@@ -26,6 +26,10 @@ export const POINTS: Record<ActionId, number> = {
 
 export const MAX_XP = Object.values(POINTS).reduce((a, b) => a + b, 0);
 
+// Bonus XP awarded to the referrer when a filleul completes their first submission.
+// Non-visible to the user — pure backend logic that ranks referrers higher naturally.
+export const REFERRAL_BONUS_XP = 500;
+
 export const STEP_COUNT = 4;
 
 export type FlowState = {

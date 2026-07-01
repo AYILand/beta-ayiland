@@ -14,7 +14,7 @@ export function XpBar({ xp }: XpBarProps) {
   const mv = useMotionValue(0);
   const spring = useSpring(mv, { stiffness: 90, damping: 18 });
   const display = useTransform(spring, (v) => Math.round(v));
-  const percent = useTransform(spring, (v) => `${(v / MAX_XP) * 100}%`);
+  const percent = useTransform(spring, (v) => `${Math.min(100, (v / MAX_XP) * 100)}%`);
 
   useEffect(() => {
     mv.set(xp);
@@ -28,7 +28,6 @@ export function XpBar({ xp }: XpBarProps) {
         </span>
         <motion.span className="font-medium tabular-nums text-brand-blue">
           <motion.span>{display}</motion.span>
-          <span className="text-text-secondary"> / {MAX_XP}</span>
         </motion.span>
       </div>
       <div className="relative h-3 w-full overflow-hidden rounded-full border border-border bg-surface-soft">

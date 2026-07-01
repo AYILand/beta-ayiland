@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { supabaseServer } from "@/lib/supabase";
 import { sendBetaEmail } from "@/lib/mailer";
+import { REFERRAL_BONUS_XP } from "@/lib/flow";
 
 export const runtime = "nodejs";
 
@@ -117,7 +118,7 @@ export async function POST(req: Request) {
 
   const { data: existing } = await supabase
     .from("candidates")
-    .select("referred_by,display_mode")
+    .select("referred_by,display_mode,submitted_at")
     .eq("email", email)
     .maybeSingle();
 
@@ -145,6 +146,26 @@ export async function POST(req: Request) {
 
   if (error) {
     return NextResponse.json({ error: error.message }, { status: 500 });
+  }
+
+  const isFirstSubmission = body.submit && !existing?.submitted_at;
+
+  if (isFirstSubmission && data?.referred_by) {
+    try {
+      const { data: referrer } = await supabase
+        .from("candidates")
+        .select("xp")
+        .eq("email", data.referred_by)
+        .single();
+      if (referrer) {
+        await supabase
+          .from("candidates")
+          .update({ xp: (referrer.xp ?? 0) + REFERRAL_BONUS_XP })
+          .eq("email", data.referred_by);
+      }
+    } catch (e) {
+      console.error("Failed to award referral bonus XP", e);
+    }
   }
 
   if (body.submit) {
